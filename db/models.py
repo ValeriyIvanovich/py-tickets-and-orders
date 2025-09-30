@@ -115,8 +115,10 @@ class Ticket(models.Model):
                     ]
                 }
             )
-        if (self.seat < 1 or
-                self.seat > self.movie_session.cinema_hall.seats_in_row):
+        if (
+                self.seat < 1
+                or self.seat > self.movie_session.cinema_hall.seats_in_row
+        ):
             raise ValidationError(
                 {
                     "seat": [
