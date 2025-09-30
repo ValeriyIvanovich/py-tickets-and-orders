@@ -7,7 +7,7 @@ def get_movies(
     genres_ids: list[int] = None,
     actors_ids: list[int] = None,
     title: str = None,
-) -> QuerySet:
+) -> QuerySet[Movie]:
     queryset = Movie.objects.all()
 
     if genres_ids:
@@ -32,18 +32,15 @@ def create_movie(
     genres_ids: list = None,
     actors_ids: list = None,
 ) -> Movie:
-    with transaction.atomic():
-        movie = Movie(title=movie_title, description=movie_description)
-        movie.save()
+    movie = Movie(title=movie_title, description=movie_description)
+    movie.save()
 
-        if genres_ids:
-            if not all(isinstance(g, int) for g in genres_ids):
-                raise ValueError("genres_ids must be integers")
-            movie.genres.set(genres_ids)
-
-        if actors_ids:
-            if not all(isinstance(a, int) for a in actors_ids):
-                raise ValueError("actors_ids must be integers")
-            movie.actors.set(actors_ids)
-
+    if genres_ids:
+        if not all(isinstance(g, int) for g in genres_ids):
+            raise ValueError("genres_ids must be integers")
+        movie.genres.set(genres_ids)
+    if actors_ids:
+        if not all(isinstance(a, int) for a in actors_ids):
+            raise ValueError("actors_ids must be integers")
+        movie.actors.set(actors_ids)
     return movie

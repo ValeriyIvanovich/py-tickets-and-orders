@@ -20,10 +20,13 @@ class Actor(models.Model):
 
 
 class Movie(models.Model):
-    title = models.CharField(max_length=255, db_index=True)
+    title = models.CharField(max_length=255)
     description = models.TextField()
     actors = models.ManyToManyField(to=Actor, related_name="movies")
     genres = models.ManyToManyField(to=Genre, related_name="movies")
+
+    class Meta:
+        indexes = [models.Index(fields=["title"])]
 
     def __str__(self) -> str:
         return self.title
@@ -73,7 +76,7 @@ class Order(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self) -> str:
-        return str(self.created_at)
+        return str(f"<Order: {self.created_at:%Y-%m-%d %H:%M:%S}>")
 
 
 class Ticket(models.Model):
@@ -92,15 +95,22 @@ class Ticket(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=["movie_session", "row", "seat"],
-                name="unique_ticket_in_session",
+                name="unique_ticket_per_session_row_seat",
             )
         ]
 
     def __str__(self) -> str:
+        '''
         return (
             f"{self.movie_session.movie.title} "
             f"{self.movie_session.show_time} "
             f"(row: {self.row}, seat: {self.seat})"
+        )
+        '''
+        return (
+            f"<Ticket: {self.movie_session.movie.title} "
+            f"{self.movie_session.show_time} "
+            f"(row: {self.row}, seat: {self.seat})>"
         )
 
     def clean(self) -> None:

@@ -224,7 +224,7 @@ class Migration(migrations.Migration):
                 "constraints": [
                     models.UniqueConstraint(
                         fields=("movie_session", "row", "seat"),
-                        name="unique_ticket_in_session",
+                        name="unique_ticket_per_session_row_seat",
                     )
                 ],
             },

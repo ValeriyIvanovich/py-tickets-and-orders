@@ -1,5 +1,6 @@
 from typing import Optional
 from db.models import User
+from django.contrib.auth import get_user_model
 
 
 def create_user(
@@ -32,7 +33,7 @@ def update_user(
     first_name: Optional[str] = None,
     last_name: Optional[str] = None,
 ) -> User:
-    user = User.objects.get(id=user_id)
+    user = get_user(user_id)
     if username:
         user.username = username
     if password:
