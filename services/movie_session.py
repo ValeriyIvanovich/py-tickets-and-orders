@@ -1,7 +1,6 @@
 from django.db.models import QuerySet
 from typing import List, Dict
 
-from db.models import MovieSession
 from db.models import MovieSession, Ticket
 
 

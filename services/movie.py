@@ -27,12 +27,14 @@ def get_movie_by_id(movie_id: int) -> Movie:
 
 @transaction.atomic
 def create_movie(
+    movie_title: str,
+    movie_description: str,
     genres_ids: list = None,
     actors_ids: list = None,
 ) -> Movie:
     with transaction.atomic():
         movie = Movie(title=movie_title, description=movie_description)
-        movie.save()  # dopiero po walidacji
+        movie.save()
 
         if genres_ids:
             if not all(isinstance(g, int) for g in genres_ids):
