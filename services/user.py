@@ -1,6 +1,5 @@
 from typing import Optional
 from db.models import User
-from django.contrib.auth import get_user_model
 
 
 def create_user(
