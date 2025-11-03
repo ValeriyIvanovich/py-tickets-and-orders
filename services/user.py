@@ -1,5 +1,7 @@
 from typing import Optional
-from db.models import User
+# from db.models import User
+# from django.db import transaction
+from  django.contrib.auth import get_user_model
 
 
 def create_user(
@@ -8,8 +10,9 @@ def create_user(
     email: Optional[str] = None,
     first_name: Optional[str] = None,
     last_name: Optional[str] = None,
-) -> User:
-    user = User.objects.create_user(username=username, password=password)
+):
+    # user = User.objects.create_user(username=username, password=password)
+    user = get_user_model().objects.create_user(username=username, password=password)
     if email:
         user.email = email
     if first_name:
@@ -20,8 +23,8 @@ def create_user(
     return user
 
 
-def get_user(user_id: int) -> User:
-    return User.objects.get(id=user_id)
+def get_user(user_id: int):
+    return get_user_model().objects.get(id=user_id)
 
 
 def update_user(
@@ -31,7 +34,7 @@ def update_user(
     email: Optional[str] = None,
     first_name: Optional[str] = None,
     last_name: Optional[str] = None,
-) -> User:
+):
     user = get_user(user_id)
     if username:
         user.username = username
